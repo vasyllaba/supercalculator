@@ -1,7 +1,5 @@
 package com.calcuator.supercalculatorweb.model;
 
-import com.sun.istack.NotNull;
-
 import javax.persistence.*;
 
 @Entity

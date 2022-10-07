@@ -1,74 +1,113 @@
-<!doctype html>
+<!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.104.2">
-    <title>Offcanvas navbar template · Bootstrap v5.2</title>
+    <meta charset="UTF-8"/>
+    <title>BeFocused</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
           rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
           crossorigin="anonymous">
-
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
-    <link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
-    <link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
-    <link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
-    <link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
-    <link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
-    <meta name="theme-color" content="#712cf9">
-
-
-    <!-- Custom styles for this template -->
-    <link href="offcanvas.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/style.css" th:href="@{/style.css}">
 </head>
 <body class="bg-light">
 
-<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Super Calculator</a>
-        <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">History</a>
-                </li>
-            </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
+    <div class="container-fluid row">
+        <div class="col-md-10 mt-2">
+            <h2 style="float:left;" class="navbar-brand">Super Calculator</h2>
+        </div>
+        <div class="navbar-text col input-group " >
+            <a style="margin-left: 35px; padding-left: 65px;" class="nav-link text-muted" href="/">
+                <svg  xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                </svg>
+                About
+            </a>
         </div>
     </div>
 </nav>
 
-<main class="container" style="margin-top: 100px;">
-    <div class="my-3 p-3 bg-body rounded shadow-sm">
-        <h6 class="border-bottom pb-2 mb-0">Suggestions</h6>
-        <div class="d-flex text-muted pt-3">
-            <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
+<!--    Title-->
+<div class="container mt-5"><h3>Calculating history</h3></div>
 
-            <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-                <div class="d-flex justify-content-between">
-                    <strong class="text-gray-dark">Full Name</strong>
-                    <a href="#">Follow</a>
-                </div>
-                <span class="d-block">@username</span>
+<!------------------------->
+<!--Filter menu-->
+
+<div class="container p-0 rounded-3 mt-4 mb-4 bg-white shadow-sm">
+    <h6>Search by result</h6>
+    <div class="row">
+        <div class="col-md-5">
+            <ul class="nav nav-pills p-0 bg-white rounded-5" >
+                <li class="nav-item" role="presentation">
+                    <div th:attrappend="class=${filterParam == 'Equal' ? 'filter-active p-3' : 'p-3' }">
+                        <a th:href="@{/calculators/list}"
+                           th:attrappend="class=${filterParam == 'Equal' ? 'nav-link' : 'nav-link text-muted' }"
+                           th:text="'Equal  ' + ${allCount}">
+                        </a>
+                    </div>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <div th:attrappend="class=${filterParam == 'more' ? 'filter-active p-3' : 'p-3' }">
+                        <a th:href="@{/calculators/filter(filter='more')}"
+                           th:attrappend="class=${filterParam == 'more' ? 'nav-link' : 'nav-link text-muted' }"
+                           th:text="'More  ' + ${incompleteCount}">
+                        </a>
+                    </div>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <div th:attrappend="class=${filterParam == 'less' ? 'filter-active p-3' : 'p-3' }">
+                        <a th:href="@{/calculators/filter(filter='less')}"
+                           th:attrappend="class=${filterParam == 'less' ? 'nav-link' : 'nav-link text-muted' }"
+                           th:text="'Less  ' + ${completedCount}">
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-5">
+        </div>
+        <div class="col-md-2">
+            <form method="get" action="/new">
+                <button class="btn btn-primary round-5 ml-5 mt-3" type="submit">New Calculating</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!--    List-->
+<div class="container bg-white rounded-3">
+    <div class="row">
+        <div class="row mt-3 mb-3">
+            <div class="col-8">
+                <h6 class=" px-3">Expression</h6>
+            </div>
+            <div class="col-2">
+                <h6>Result</h6>
             </div>
         </div>
-        <small class="d-block text-end mt-3">
-            <a href="#">All suggestions</a>
-        </small>
+
+        <hr/>
+        <!---------------------------------------------------------------------------->
+        <div class="row border-bottom p-2" th:each="calculator : ${calculators}">
+            <!--  Expression  -->
+            <div class="col-8">
+                <div>
+                    <a style="text-decoration: none; margin-left: 16px" th:method="get" th:text="${calculator.expression}" th:href="@{'/calculators/edit'(id=${calculator.id})}">2+2</a>
+                </div>
+            </div>
+            <!------  Result  ------->
+            <div class="col-2">
+                <span th:text="${calculator.result}">= 4</span>
+            </div>
+        </div>
     </div>
-</main>
+</div>
 
-
-<script src="/docs/5.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-
-<script src="offcanvas.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
 </body>
 </html>

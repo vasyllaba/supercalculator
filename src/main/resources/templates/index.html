@@ -7,10 +7,10 @@
 
 <main class="container" style="margin-top: 100px;">
     <div class="my-3 p-3 bg-body rounded shadow-sm">
-        <form class="row g-3 needs-validation" id="calculateForm" method="post" modelAttribute="calculator" th:object="${calculator}" th:action="@{/calculator/add}" >
+        <form class="row g-3 needs-validation" id="calculateForm" method="post" modelAttribute="calculator" th:action="@{/calculator/add}" >
             <h6 class="border-bottom pb-2 mb-0">Expression:</h6>
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="expression" placeholder="(2 + 5) * 2">
+                <input type="text" name="expression" class="form-control" id="expression" placeholder="(2 + 5) * 2">
                 <label for="expression">Input expression</label>
             </div>
             <h6 class="border-bottom pb-2 mb-0">Result:</h6>

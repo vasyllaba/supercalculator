@@ -13,8 +13,8 @@ public class Calculator {
     @Column(nullable = false)
     private String expression;
 
-    @Column(nullable = false)
-    private String result;
+    @Column(nullable = true)
+    private Double result;
 
     public Calculator() {
     }
@@ -35,19 +35,11 @@ public class Calculator {
         this.expression = expression;
     }
 
-    public String getResult() {
+    public Double getResult() {
         return result;
     }
 
-    public void setResult(String result) {
+    public void setResult(Double result) {
         this.result = result;
-    }
-
-    public double calculate() {
-        return 1.2;
-    }
-
-    public double parseStr() {
-        return 1.2;
     }
 }

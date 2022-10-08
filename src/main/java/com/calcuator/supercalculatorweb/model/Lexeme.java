@@ -73,6 +73,69 @@ public class Lexeme {
         return lexemes;
     }
 
+    public static double expr(LexemeBuffer lexemes) {
+        Lexeme lexeme = lexemes.next();
+        if (lexeme.type == LexemeType.EOF) {
+            return 0;
+        } else {
+            lexemes.back();
+            return plusMinus(lexemes);
+        }
+    }
+
+    public static double plusMinus(LexemeBuffer lexemes) {
+        double value = multDiv(lexemes);
+        while (true) {
+            Lexeme lexeme = lexemes.next();
+            switch (lexeme.type) {
+                case OP_PLUS:
+                    value += multDiv(lexemes);
+                    break;
+                case OP_MINUS:
+                    value -= multDiv(lexemes);
+                    break;
+                default:
+                    lexemes.back();
+                    return value;
+            }
+        }
+    }
+
+    public static double multDiv(LexemeBuffer lexemes) {
+        double value = factor(lexemes);
+        while (true) {
+            Lexeme lexeme = lexemes.next();
+            switch (lexeme.type) {
+                case OP_MUL:
+                    value *= factor(lexemes);
+                    break;
+                case OP_DIV:
+                    value /= factor(lexemes);
+                    break;
+                default:
+                    lexemes.back();
+                    return value;
+            }
+        }
+    }
+
+    public static double factor(LexemeBuffer lexemes) {
+        Lexeme lexeme = lexemes.next();
+        switch (lexeme.type) {
+            case NUMBER:
+                return Double.parseDouble(lexeme.value);
+            case LEFT_BRACKET:
+                double value = expr(lexemes);
+                lexeme = lexemes.next();
+                if (lexeme.type != LexemeType.RIGHT_BRACKET) {
+                    throw new RuntimeException("Unexpected token: " + lexeme.value + " at position " + lexemes.getPos());
+                }
+                return value;
+            default:
+                throw new RuntimeException("Unexpected token: " + lexeme.value + " at position " + lexemes.getPos());
+        }
+    }
+
     @Override
     public String toString() {
         return "Lexeme{" +

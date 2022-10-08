@@ -1,6 +1,8 @@
 package com.calcuator.supercalculatorweb.controller;
 
 import com.calcuator.supercalculatorweb.model.Calculator;
+import com.calcuator.supercalculatorweb.model.Lexeme;
+import com.calcuator.supercalculatorweb.model.LexemeBuffer;
 import com.calcuator.supercalculatorweb.service.CalculatorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,23 +44,28 @@ public class CalculatorController {
     }
 
     @PostMapping("/calculator/add")
-    public String add(@ModelAttribute("calculator") Calculator calculator, BindingResult bindingResult, Model model,
+    public String add(@ModelAttribute("expression") String expression, BindingResult bindingResult, Model model,
                       @RequestParam(value = "id", required = false) Long id) {
         if (bindingResult.hasErrors()){
             if (id==null)
             {
-                model.addAttribute("btnSubmit", "Create");
+                model.addAttribute("btnSubmit", "Calculate");
             }else {
-                model.addAttribute("btnSubmit", "Save");
+                model.addAttribute("btnSubmit", "Recalculate");
             }
             return "add";
         }
         if (id==null)
         {
-            model.addAttribute("btnSubmit", "Create");
+            model.addAttribute("btnSubmit", "Calculate");
         }else {
-            model.addAttribute("btnSubmit", "Save");
+            model.addAttribute("btnSubmit", "Recalculate");
         }
+        Calculator calculator = new Calculator();
+        calculator.setExpression(expression);
+        List lexemes = Lexeme.lexAnalyze(expression);
+        LexemeBuffer lexemeBuffer = new LexemeBuffer(lexemes);
+        calculator.setResult(Lexeme.expr(lexemeBuffer));
         calculatorService.save(calculator);
         return "index";
     }

@@ -58,13 +58,14 @@ public class CalculatorController {
         LexemeBuffer lexemeBuffer = new LexemeBuffer(lexemes);
         calculator.setResult(Lexeme.expr(lexemeBuffer));
         model.addAttribute("calculator", calculator);
-        calculatorService.save(calculator);
         if (id==null)
         {
             model.addAttribute("btnSubmit", "Calculate");
         }else {
             model.addAttribute("btnSubmit", "Recalculate");
+            calculator.setId(id);
         }
+        calculatorService.save(calculator);
         return "index";
     }
 

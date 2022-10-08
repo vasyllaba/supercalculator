@@ -58,7 +58,7 @@ public class TestLexeme {
         List lexemes = Lexeme.lexAnalyze(str);
         LexemeBuffer lexemeBuffer = new LexemeBuffer(lexemes);
         double result = Lexeme.expr(lexemeBuffer);
-        Assert.assertEquals(1.0, result, 0);
+        Assert.assertEquals(7.6, result, 0.0015);
     }
 
 

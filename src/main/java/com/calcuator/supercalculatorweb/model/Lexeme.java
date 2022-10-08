@@ -50,7 +50,7 @@ public class Lexeme {
                     pos++;
                     continue;
                 default:
-                    if (c <= '9' && c >= '0') {
+                    if (c <= '9' && c >= '0' || c == '.') {
                         StringBuilder sb = new StringBuilder();
                         do {
                             sb.append(c);
@@ -59,7 +59,7 @@ public class Lexeme {
                                 break;
                             }
                             c = expText.charAt(pos);
-                        } while (c <= '9' && c >= '0');
+                        } while (c <= '9' && c >= '0' || c == '.');
                         lexemes.add(new Lexeme(LexemeType.NUMBER, sb.toString()));
                     } else {
                         if (c != ' ') {

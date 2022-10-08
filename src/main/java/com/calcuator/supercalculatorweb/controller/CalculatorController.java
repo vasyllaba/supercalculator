@@ -66,6 +66,7 @@ public class CalculatorController {
         List lexemes = Lexeme.lexAnalyze(expression);
         LexemeBuffer lexemeBuffer = new LexemeBuffer(lexemes);
         calculator.setResult(Lexeme.expr(lexemeBuffer));
+        model.addAttribute("calculator", calculator);
         calculatorService.save(calculator);
         return "index";
     }

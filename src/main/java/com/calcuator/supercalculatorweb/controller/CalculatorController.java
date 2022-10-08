@@ -7,10 +7,7 @@ import com.calcuator.supercalculatorweb.service.CalculatorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -55,12 +52,6 @@ public class CalculatorController {
             }
             return "add";
         }
-        if (id==null)
-        {
-            model.addAttribute("btnSubmit", "Calculate");
-        }else {
-            model.addAttribute("btnSubmit", "Recalculate");
-        }
         Calculator calculator = new Calculator();
         calculator.setExpression(expression);
         List lexemes = Lexeme.lexAnalyze(expression);
@@ -68,6 +59,19 @@ public class CalculatorController {
         calculator.setResult(Lexeme.expr(lexemeBuffer));
         model.addAttribute("calculator", calculator);
         calculatorService.save(calculator);
+        if (id==null)
+        {
+            model.addAttribute("btnSubmit", "Calculate");
+        }else {
+            model.addAttribute("btnSubmit", "Recalculate");
+        }
+        return "index";
+    }
+
+    @GetMapping("/calculation/edit")
+    public String edit(@RequestParam(name="id")Long id, Model model) {
+        model.addAttribute("calculator", calculatorService.getById(id));
+        model.addAttribute("btnSubmit", "Recalculate");
         return "index";
     }
 }

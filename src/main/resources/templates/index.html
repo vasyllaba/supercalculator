@@ -11,17 +11,19 @@
               th:action="@{/calculator/add}" >
             <h6 class="border-bottom pb-2 mb-0">Expression:</h6>
             <div class="form-floating mb-3">
-                <input type="text" name="expression" class="form-control" id="expression"
-                       placeholder="(2 + 5) * 2">
-                <label for="expression" th:text="${calculator?.expression}">Input expression</label>
+                <input type="text" form="calculateForm" th:value="${calculator?.id}" field="*{id}" class="d-none" id="id" name="id">
+
+                <input type="text" name="expression" th:value="${calculator?.expression}" class="form-control"
+                       id="expression" placeholder="(2 + 5) * 2">
+                <label for="expression" >Input expression</label>
+                <span class="text-danger" th:if="${errorMessage}"  th:text="${errorMessage}">Error</span>
             </div>
             <h6 class="border-bottom pb-2 mb-0">Result:</h6>
             <div class="form-floating mb-3">
-                <input type="number"  class="form-control" id="result" readonly>
-                <label for="result" th:text="${calculator?.result}"></label>
+                <input type="number" th:value="${calculator?.result}" class="form-control" id="result" readonly>
             </div>
         </form>
-        <button class="w-100 btn btn-lg btn-primary" type="submit" form="calculateForm">Calculate</button>
+        <button class="w-100 btn btn-lg btn-primary" type="submit" th:text="${btnSubmit}" form="calculateForm">Calculate</button>
     </div>
 </main>
 

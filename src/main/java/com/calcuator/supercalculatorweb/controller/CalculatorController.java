@@ -7,10 +7,7 @@ import com.calcuator.supercalculatorweb.service.CalculatorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -55,19 +52,33 @@ public class CalculatorController {
             }
             return "add";
         }
+        Calculator calculator = new Calculator();
+        calculator.setExpression(expression);
+        String errMessage = null;
+        try{
+            List lexemes = Lexeme.lexAnalyze(expression);
+            LexemeBuffer lexemeBuffer = new LexemeBuffer(lexemes);
+            calculator.setResult(Lexeme.expr(lexemeBuffer));
+        }catch(RuntimeException e){
+            errMessage = e.getMessage();
+            model.addAttribute("errorMessage", e.getMessage());
+        }
+        model.addAttribute("calculator", calculator);
         if (id==null)
         {
             model.addAttribute("btnSubmit", "Calculate");
         }else {
             model.addAttribute("btnSubmit", "Recalculate");
+            calculator.setId(id);
         }
-        Calculator calculator = new Calculator();
-        calculator.setExpression(expression);
-        List lexemes = Lexeme.lexAnalyze(expression);
-        LexemeBuffer lexemeBuffer = new LexemeBuffer(lexemes);
-        calculator.setResult(Lexeme.expr(lexemeBuffer));
-        model.addAttribute("calculator", calculator);
-        calculatorService.save(calculator);
+        if (errMessage == null) calculatorService.save(calculator);
+        return "index";
+    }
+
+    @GetMapping("/calculation/edit")
+    public String edit(@RequestParam(name="id")Long id, Model model) {
+        model.addAttribute("calculator", calculatorService.getById(id));
+        model.addAttribute("btnSubmit", "Recalculate");
         return "index";
     }
 }

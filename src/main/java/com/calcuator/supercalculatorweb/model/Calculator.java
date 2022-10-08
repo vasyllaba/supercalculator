@@ -42,4 +42,12 @@ public class Calculator {
     public void setResult(String result) {
         this.result = result;
     }
+
+    public double calculate() {
+        return 1.2;
+    }
+
+    public double parseStr() {
+        return 1.2;
+    }
 }

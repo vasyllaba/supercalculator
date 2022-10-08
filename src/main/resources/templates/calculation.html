@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/header :: head"></head>
+
+<body class="bg-light">
+
+<div th:replace="fragments/navbar :: navbar"></div>
+<!--    Title-->
+<div class="container mt-5"><h3>Calculating history</h3></div>
+
+<!------------------------->
+<!--Filter menu-->
+
+<div class="container p-0 rounded-3 mt-4 mb-4 bg-white shadow-sm">
+    <h6>Search by result</h6>
+    <div class="row">
+        <div class="col-md-5">
+            <ul class="nav nav-pills p-0 bg-white rounded-5" >
+                <li class="nav-item" role="presentation">
+                    <div th:attrappend="class=${filterParam == 'Equal' ? 'filter-active p-3' : 'p-3' }">
+                        <a th:href="@{/calculators/list}"
+                           th:attrappend="class=${filterParam == 'Equal' ? 'nav-link' : 'nav-link text-muted' }"
+                           th:text="'Equal  ' + ${allCount}">
+                        </a>
+                    </div>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <div th:attrappend="class=${filterParam == 'more' ? 'filter-active p-3' : 'p-3' }">
+                        <a th:href="@{/calculators/filter(filter='more')}"
+                           th:attrappend="class=${filterParam == 'more' ? 'nav-link' : 'nav-link text-muted' }"
+                           th:text="'More  ' + ${incompleteCount}">
+                        </a>
+                    </div>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <div th:attrappend="class=${filterParam == 'less' ? 'filter-active p-3' : 'p-3' }">
+                        <a th:href="@{/calculators/filter(filter='less')}"
+                           th:attrappend="class=${filterParam == 'less' ? 'nav-link' : 'nav-link text-muted' }"
+                           th:text="'Less  ' + ${completedCount}">
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-5">
+        </div>
+        <div class="col-md-2">
+            <form method="get" action="/new">
+                <button class="btn btn-primary round-5 ml-5 mt-3" type="submit">New Calculating</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!--    List-->
+<div class="container bg-white rounded-3">
+    <div class="row">
+        <div class="row mt-3 mb-3">
+            <div class="col-8">
+                <h6 class=" px-3">Expression</h6>
+            </div>
+            <div class="col-2">
+                <h6>Result</h6>
+            </div>
+        </div>
+
+        <hr/>
+        <!---------------------------------------------------------------------------->
+        <div class="row border-bottom p-2" th:each="calculator : ${calculations}">
+            <!--  Expression  -->
+            <div class="col-8">
+                <div>
+                    <a style="text-decoration: none; margin-left: 16px" th:method="get" th:text="${calculator.expression}" th:href="@{'/calculator/edit'(id=${calculator.id})}">2+2</a>
+                </div>
+            </div>
+            <!------  Result  ------->
+            <div class="col-2">
+                <span th:text="${calculator.result}">= 4</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+</body>
+</html>

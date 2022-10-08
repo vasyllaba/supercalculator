@@ -15,8 +15,8 @@
 
                 <input type="text" name="expression" th:value="${calculator?.expression}" class="form-control"
                        id="expression" placeholder="(2 + 5) * 2">
-
                 <label for="expression" >Input expression</label>
+                <span class="text-danger" th:if="${errorMessage}"  th:text="${errorMessage}">Error</span>
             </div>
             <h6 class="border-bottom pb-2 mb-0">Result:</h6>
             <div class="form-floating mb-3">

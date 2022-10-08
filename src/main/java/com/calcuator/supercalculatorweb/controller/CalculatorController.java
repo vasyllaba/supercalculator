@@ -54,9 +54,15 @@ public class CalculatorController {
         }
         Calculator calculator = new Calculator();
         calculator.setExpression(expression);
-        List lexemes = Lexeme.lexAnalyze(expression);
-        LexemeBuffer lexemeBuffer = new LexemeBuffer(lexemes);
-        calculator.setResult(Lexeme.expr(lexemeBuffer));
+        String errMessage = null;
+        try{
+            List lexemes = Lexeme.lexAnalyze(expression);
+            LexemeBuffer lexemeBuffer = new LexemeBuffer(lexemes);
+            calculator.setResult(Lexeme.expr(lexemeBuffer));
+        }catch(RuntimeException e){
+            errMessage = e.getMessage();
+            model.addAttribute("errorMessage", e.getMessage());
+        }
         model.addAttribute("calculator", calculator);
         if (id==null)
         {
@@ -65,7 +71,7 @@ public class CalculatorController {
             model.addAttribute("btnSubmit", "Recalculate");
             calculator.setId(id);
         }
-        calculatorService.save(calculator);
+        if (errMessage == null) calculatorService.save(calculator);
         return "index";
     }
 

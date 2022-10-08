@@ -71,12 +71,15 @@
             <!--  Expression  -->
             <div class="col-8">
                 <div>
-                    <a style="text-decoration: none; margin-left: 16px" th:method="get" th:text="${calculator.expression}" th:href="@{'/calculator/edit'(id=${calculator.id})}">2+2</a>
+                    <span th:text="${calculator.expression}">2+2</span>
                 </div>
             </div>
             <!------  Result  ------->
-            <div class="col-2">
+            <div class="col-3">
                 <span th:text="${calculator.result}">= 4</span>
+            </div>
+            <div class="col-1">
+                <a th:method="get" th:text="Edit" th:href="@{'/calculation/edit'(id=${calculator.id})}">Edit</a>
             </div>
         </div>
     </div>

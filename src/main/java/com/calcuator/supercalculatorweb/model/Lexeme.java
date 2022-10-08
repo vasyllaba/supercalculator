@@ -21,9 +21,12 @@ public class Lexeme {
 
     public static List<Lexeme> lexAnalyze(String expText) {
         ArrayList<Lexeme> lexemes = new ArrayList<>();
+        expText = expText.replaceAll("\\s+", "");
         int pos = 0;
+        char c = 0;
         while (pos < expText.length()) {
-            char c = expText.charAt(pos);
+            char prev = c;
+            c = expText.charAt(pos);
             switch (c) {
                 case '(':
                     lexemes.add(new Lexeme(LexemeType.LEFT_BRACKET, c));
@@ -37,10 +40,6 @@ public class Lexeme {
                     lexemes.add(new Lexeme(LexemeType.OP_PLUS, c));
                     pos++;
                     continue;
-                case '-':
-                    lexemes.add(new Lexeme(LexemeType.OP_MINUS, c));
-                    pos++;
-                    continue;
                 case '*':
                     lexemes.add(new Lexeme(LexemeType.OP_MUL, c));
                     pos++;
@@ -49,8 +48,14 @@ public class Lexeme {
                     lexemes.add(new Lexeme(LexemeType.OP_DIV, c));
                     pos++;
                     continue;
+                case '-':
+                    if (prev <= '9' && prev >= '0' || prev == '.') {
+                        lexemes.add(new Lexeme(LexemeType.OP_MINUS, c));
+                        pos++;
+                        continue;
+                    }
                 default:
-                    if (c <= '9' && c >= '0' || c == '.') {
+                    if (c <= '9' && c >= '0' || c == '.' || c == '-') {
                         StringBuilder sb = new StringBuilder();
                         do {
                             sb.append(c);

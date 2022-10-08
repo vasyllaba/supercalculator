@@ -61,15 +61,41 @@ public class TestLexeme {
         Assert.assertEquals(7.6, result, 0.0015);
     }
 
-
     @Test
-    public void testNegativeValues() {
-        String str = "(3 + -(2))";
+    public void testNumbersWithSpaces() {
+        String str = "3 + 2 2";
         List lexemes = Lexeme.lexAnalyze(str);
         LexemeBuffer lexemeBuffer = new LexemeBuffer(lexemes);
         double result = Lexeme.expr(lexemeBuffer);
-        Assert.assertEquals(1.0, result, 0);
+        Assert.assertEquals(25.0, result, 0.0015);
     }
+
+    @Test
+    public void testNegativeNumbers() {
+        String str = "3 + -2";
+        List lexemes = Lexeme.lexAnalyze(str);
+        LexemeBuffer lexemeBuffer = new LexemeBuffer(lexemes);
+        double result = Lexeme.expr(lexemeBuffer);
+        Assert.assertEquals(1.0, result, 0.0015);
+    }
+
+    @Test
+    public void testNegativeNumbers2() {
+        String str = "4*-7";
+        List lexemes = Lexeme.lexAnalyze(str);
+        LexemeBuffer lexemeBuffer = new LexemeBuffer(lexemes);
+        double result = Lexeme.expr(lexemeBuffer);
+        Assert.assertEquals(-28.0, result, 0.0015);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testIncorrectInput() {
+        String str = "3+*4";
+        List<Lexeme> lexemes = Lexeme.lexAnalyze(str);
+        LexemeBuffer lexemeBuffer = new LexemeBuffer(lexemes);
+        double result = Lexeme.expr(lexemeBuffer);
+    }
+
 
 
 }

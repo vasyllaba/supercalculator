@@ -11,6 +11,11 @@
 <!------------------------->
 <!--Filter menu-->
 
+<div class="container">
+    <a th:if="${backBtn == true }" th:method="get" th:href="@{'/calculation'}">
+        Back to all result
+    </a>
+</div>
 <div class="container p-0 rounded-3 mt-4 mb-4 bg-white shadow-sm">
     <h6>Search by result</h6>
     <div class="row p-3">

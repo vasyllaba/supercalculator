@@ -88,6 +88,15 @@ public class TestLexeme {
         Assert.assertEquals(-28.0, result, 0.0015);
     }
 
+    @Test
+    public void testNegativeNumbers3() {
+        String str = "4--7";
+        List lexemes = Lexeme.lexAnalyze(str);
+        LexemeBuffer lexemeBuffer = new LexemeBuffer(lexemes);
+        double result = Lexeme.expr(lexemeBuffer);
+        Assert.assertEquals(11.0, result, 0.0015);
+    }
+
     @Test(expected = RuntimeException.class)
     public void testIncorrectInput() {
         String str = "3+*4";

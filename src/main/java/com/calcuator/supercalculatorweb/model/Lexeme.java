@@ -23,9 +23,9 @@ public class Lexeme {
         ArrayList<Lexeme> lexemes = new ArrayList<>();
         expText = expText.replaceAll("\\s+", "");
         int pos = 0;
-        char c = 0;
+        char c, prev;
         while (pos < expText.length()) {
-            char prev = c;
+            prev = (pos > 0) ? expText.charAt(pos - 1) : 'n';
             c = expText.charAt(pos);
             switch (c) {
                 case '(':
@@ -49,14 +49,15 @@ public class Lexeme {
                     pos++;
                     continue;
                 case '-':
-                    if (prev <= '9' && prev >= '0' || prev == '.') {
+                    if (isNumber(prev)) {
                         lexemes.add(new Lexeme(LexemeType.OP_MINUS, c));
                         pos++;
                         continue;
                     }
                 default:
-                    if (c <= '9' && c >= '0' || c == '.' || c == '-') {
+                    if (isNumber(c) || c == '.' || c == '-') {
                         StringBuilder sb = new StringBuilder();
+                        negativeNumbersCheck(c, sb.toString());
                         do {
                             sb.append(c);
                             pos++;
@@ -76,6 +77,17 @@ public class Lexeme {
         }
         lexemes.add(new Lexeme(LexemeType.EOF, ""));
         return lexemes;
+    }
+
+    private static void negativeNumbersCheck(char symbol, String str){
+        if (symbol == '-' && str.contains("-"))
+            throw new RuntimeException("Unexpected character: " + symbol);
+    }
+
+    private static boolean isNumber(char sym){
+        if (sym <= '9' && sym >= '0' )
+            return true;
+        return false;
     }
 
     public static double expr(LexemeBuffer lexemes) {

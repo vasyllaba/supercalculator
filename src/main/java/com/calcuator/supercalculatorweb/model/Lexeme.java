@@ -109,9 +109,6 @@ public class Lexeme {
                     value += multDiv(lexemes);
                     break;
                 case OP_MINUS:
-//                    if (lexemes.prev().type != LexemeType.NUMBER){
-//                        value = -1 * multDiv(lexemes);
-//                    }
                     value -= multDiv(lexemes);
                     break;
                 default:

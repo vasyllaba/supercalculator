@@ -23,7 +23,16 @@
                 <input type="number" th:value="${calculator?.result}" class="form-control" id="result" readonly>
             </div>
         </form>
-        <button class="w-100 btn btn-lg btn-primary" type="submit" th:text="${btnSubmit}" form="calculateForm">Calculate</button>
+        <div class="row">
+            <div class="col-3">
+            </div>
+            <div class="col-6">
+                <button class="w-100 btn btn-lg btn-primary" type="submit" th:text="${btnSubmit}" form="calculateForm">Calculate</button>
+            </div>
+            <div class="col-3">
+                <a th:method="get" class="w-100 btn btn-lg btn-primary" th:href="@{'/'}">New calculating</a>
+            </div>
+        </div>
     </div>
 </main>
 

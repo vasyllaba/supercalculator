@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
 public class CalculatorService {
@@ -25,6 +26,7 @@ public class CalculatorService {
     }
 
     public Calculator save(Calculator calculator) {
+        calculator.trimResult();
         return calculatorRepository.save(calculator);
     }
 

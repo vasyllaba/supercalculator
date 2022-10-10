@@ -25,7 +25,6 @@ public class CalculatorService {
     }
 
     public Calculator save(Calculator calculator) {
-//        calculator.trimResult();
         return calculatorRepository.save(calculator);
     }
 

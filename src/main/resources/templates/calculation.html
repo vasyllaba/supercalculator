@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: head"></head>
 
 <body class="bg-light">
@@ -8,9 +8,7 @@
 <!--    Title-->
 <div class="container mt-5"><h3>Calculating history</h3></div>
 
-<!------------------------->
 <!--Filter menu-->
-
 <div class="container">
     <a th:if="${backBtn == true }" th:method="get" th:href="@{'/calculation'}">
         Back to all result
@@ -37,8 +35,9 @@
                 </button>
             </div>
         </form>
-<!--        -->
+<!--    err msg    -->
         <div class="col-md-6">
+            <span class="text-danger" th:if="${errorMessage}"  th:text="${errorMessage}">Error</span>
         </div>
         <div class="col-md-2">
             <form method="get" action="/">

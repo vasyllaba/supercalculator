@@ -19,12 +19,6 @@ public class Calculator {
     public Calculator() {
     }
 
-//    public String trimResult(){;
-//        if (expResult.endsWith(".0"))
-//            expResult = expResult.replaceAll(".0", "");
-//        return expResult;
-//    }
-
     public Long getId() {
         return id;
     }

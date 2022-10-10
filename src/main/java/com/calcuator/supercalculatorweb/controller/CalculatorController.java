@@ -85,7 +85,13 @@ public class CalculatorController {
     public String searchByResult(@ModelAttribute("search") String search,
                                  @ModelAttribute("search-param") String searchParam,
                                  Model model) {
-        model.addAttribute("calculations", calculatorService.getByResultWithSearchParam(Double.valueOf(search), searchParam));
+        try{
+            model.addAttribute("calculations", calculatorService.getByResultWithSearchParam(Double.valueOf(search), searchParam));
+        }catch(NumberFormatException e){
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("calculations", calculatorService.getAll());
+            return "calculation";
+        }
         model.addAttribute("backBtn", true);
         return "calculation";
     }

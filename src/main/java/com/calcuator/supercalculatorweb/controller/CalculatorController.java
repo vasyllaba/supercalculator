@@ -82,8 +82,10 @@ public class CalculatorController {
     }
 
     @PostMapping("/calculation/search")
-    public String searchByResult(@ModelAttribute("search") String search, Model model) {
-        model.addAttribute("calculations", calculatorService.getByResult(search));
+    public String searchByResult(@ModelAttribute("search") String search,
+                                 @ModelAttribute("search-param") String searchParam,
+                                 Model model) {
+        model.addAttribute("calculations", calculatorService.getByResultWithSearchParam(search, searchParam));
         model.addAttribute("backBtn", true);
         return "calculation";
     }

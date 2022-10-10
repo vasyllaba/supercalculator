@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class CalculatorService {
@@ -37,7 +38,12 @@ public class CalculatorService {
         calculatorRepository.delete(calculator);
     }
 
-    public List<Calculator> getByResult(String expResult){
-        return calculatorRepository.findAllByExpResult(expResult);
+    public List<Calculator> getByResultWithSearchParam(String expResult, String searchParam){
+        if (searchParam.equals("More"))
+            return calculatorRepository.findAllByExpResultGreaterThan(expResult);
+        else if (searchParam.equals("Less"))
+            return calculatorRepository.findAllByExpResultLessThan(expResult);
+        else
+            return calculatorRepository.findAllByExpResult(expResult);
     }
 }

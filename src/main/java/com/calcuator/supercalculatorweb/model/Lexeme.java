@@ -23,11 +23,10 @@ public class Lexeme {
         ArrayList<Lexeme> lexemes = new ArrayList<>();
         expText = expText.replaceAll("\\s+", "");
         int pos = 0;
-        char c, next, prev;
+        char c, prev;
         while (pos < expText.length()) {
             prev = (pos > 0) ? expText.charAt(pos - 1) : 'n';
             c = expText.charAt(pos);
-            next = (pos < lexemes.size()) ? expText.charAt(pos + 1) : 'n';
             switch (c) {
                 case '(':
                     lexemes.add(new Lexeme(LexemeType.LEFT_BRACKET, c));
@@ -56,7 +55,7 @@ public class Lexeme {
                         continue;
                     }
                 default:
-                    if (c <= '9' && c >= '0' || c == '.' || c == '-') {
+                    if (isNumber(c) || c == '.' || c == '-') {
                         StringBuilder sb = new StringBuilder();
                         negativeNumbersCheck(c, sb.toString());
                         do {

@@ -36,4 +36,8 @@ public class CalculatorService {
     public void delete(Calculator calculator){
         calculatorRepository.delete(calculator);
     }
+
+    public List<Calculator> getByResult(String expResult){
+        return calculatorRepository.findAllByExpResult(expResult);
+    }
 }

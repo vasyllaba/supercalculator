@@ -14,7 +14,7 @@ public class Calculator {
     private String expression;
 
     @Column(nullable = true)
-    private Double result;
+    private String expResult;
 
     public Calculator() {
     }
@@ -35,11 +35,11 @@ public class Calculator {
         this.expression = expression;
     }
 
-    public Double getResult() {
-        return result;
+    public String getResult() {
+        return expResult;
     }
 
-    public void setResult(Double result) {
-        this.result = result;
+    public void setResult(String result) {
+        this.expResult = result;
     }
 }

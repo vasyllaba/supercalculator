@@ -9,6 +9,10 @@ public class Lexeme {
     LexemeType type;
     String value;
 
+    public LexemeType getType() {
+        return type;
+    }
+
     public Lexeme(LexemeType type, String value) {
         this.type = type;
         this.value = value;
@@ -20,6 +24,7 @@ public class Lexeme {
     }
 
     public static List<Lexeme> lexAnalyze(String expText) {
+        checkBrackets(expText);
         ArrayList<Lexeme> lexemes = new ArrayList<>();
         expText = expText.replaceAll("\\s+", "");
         int pos = 0;
@@ -79,15 +84,29 @@ public class Lexeme {
         return lexemes;
     }
 
-    private static void negativeNumbersCheck(char symbol, String str){
+    private static void negativeNumbersCheck(char symbol, String str) {
         if (symbol == '-' && str.contains("-"))
             throw new RuntimeException("Unexpected character: " + symbol);
     }
 
-    private static boolean isNumber(char sym){
-        if (sym <= '9' && sym >= '0' )
+    private static boolean isNumber(char sym) {
+        if (sym <= '9' && sym >= '0')
             return true;
         return false;
+    }
+
+    private static void checkBrackets(String str) {
+        int lBrackets = 0, rBrackets = 0;
+        for (char c : str.toCharArray()) {
+            if (c == '(') {
+                lBrackets++;
+            }
+            if (c == ')') {
+                rBrackets++;
+            }
+        }
+        if (lBrackets != rBrackets)
+            throw new RuntimeException("The brackets are not placed correctly");
     }
 
     public static double expr(LexemeBuffer lexemes) {

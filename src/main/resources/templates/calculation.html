@@ -11,42 +11,34 @@
 <!------------------------->
 <!--Filter menu-->
 
+<div class="container">
+    <a th:if="${backBtn == true }" th:method="get" th:href="@{'/calculation'}">
+        Back to all result
+    </a>
+</div>
 <div class="container p-0 rounded-3 mt-4 mb-4 bg-white shadow-sm">
     <h6>Search by result</h6>
-    <div class="row">
-        <div class="col-md-5">
-            <ul class="nav nav-pills p-0 bg-white rounded-5" >
-                <li class="nav-item" role="presentation">
-                    <div th:attrappend="class=${filterParam == 'Equal' ? 'filter-active p-3' : 'p-3' }">
-                        <a th:href="@{/calculators/list}"
-                           th:attrappend="class=${filterParam == 'Equal' ? 'nav-link' : 'nav-link text-muted' }"
-                           th:text="'Equal  ' + ${allCount}">
-                        </a>
-                    </div>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <div th:attrappend="class=${filterParam == 'more' ? 'filter-active p-3' : 'p-3' }">
-                        <a th:href="@{/calculators/filter(filter='more')}"
-                           th:attrappend="class=${filterParam == 'more' ? 'nav-link' : 'nav-link text-muted' }"
-                           th:text="'More  ' + ${incompleteCount}">
-                        </a>
-                    </div>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <div th:attrappend="class=${filterParam == 'less' ? 'filter-active p-3' : 'p-3' }">
-                        <a th:href="@{/calculators/filter(filter='less')}"
-                           th:attrappend="class=${filterParam == 'less' ? 'nav-link' : 'nav-link text-muted' }"
-                           th:text="'Less  ' + ${completedCount}">
-                        </a>
-                    </div>
-                </li>
-            </ul>
+    <div class="row p-3">
+        <div class="col-md-3">
+            <div class="input-group ">
+                <form class="row g-3" id="searchForm" method="post" th:action="@{/calculation/search}" >
+                    <input type="search" name="search" id="search" form="searchForm" class="form-control" placeholder="Search" />
+                </form>
+                <button type="button" th:type="submit" form="searchForm" class="btn btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                </button>
+            </div>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md-4">
         </div>
         <div class="col-md-2">
-            <form method="get" action="/new">
-                <button class="btn btn-primary round-5 ml-5 mt-3" type="submit">New Calculating</button>
+            <form method="get" action="/">
+                <button class="btn btn-primary round-5 ml-5" type="submit">New Calculating</button>
             </form>
         </div>
     </div>
@@ -54,7 +46,7 @@
 
 
 <!--    List-->
-<div class="container bg-white rounded-3">
+<div class="container bg-white rounded-3 p-1">
     <div class="row">
         <div class="row mt-3 mb-3">
             <div class="col-8">

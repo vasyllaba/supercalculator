@@ -23,10 +23,11 @@ public class Lexeme {
         ArrayList<Lexeme> lexemes = new ArrayList<>();
         expText = expText.replaceAll("\\s+", "");
         int pos = 0;
-        char c = 0;
+        char c, next, prev;
         while (pos < expText.length()) {
-            char prev = c;
+            prev = (pos > 0) ? expText.charAt(pos - 1) : 'n';
             c = expText.charAt(pos);
+            next = (pos < lexemes.size()) ? expText.charAt(pos + 1) : 'n';
             switch (c) {
                 case '(':
                     lexemes.add(new Lexeme(LexemeType.LEFT_BRACKET, c));
@@ -49,7 +50,7 @@ public class Lexeme {
                     pos++;
                     continue;
                 case '-':
-                    if (prev <= '9' && prev >= '0' || prev == '.') {
+                    if (isNumber(prev)) {
                         lexemes.add(new Lexeme(LexemeType.OP_MINUS, c));
                         pos++;
                         continue;
@@ -57,6 +58,7 @@ public class Lexeme {
                 default:
                     if (c <= '9' && c >= '0' || c == '.' || c == '-') {
                         StringBuilder sb = new StringBuilder();
+                        negativeNumbersCheck(c, sb.toString());
                         do {
                             sb.append(c);
                             pos++;
@@ -78,6 +80,17 @@ public class Lexeme {
         return lexemes;
     }
 
+    private static void negativeNumbersCheck(char symbol, String str){
+        if (symbol == '-' && str.contains("-"))
+            throw new RuntimeException("Unexpected character: " + symbol);
+    }
+
+    private static boolean isNumber(char sym){
+        if (sym <= '9' && sym >= '0' )
+            return true;
+        return false;
+    }
+
     public static double expr(LexemeBuffer lexemes) {
         Lexeme lexeme = lexemes.next();
         if (lexeme.type == LexemeType.EOF) {
@@ -97,6 +110,9 @@ public class Lexeme {
                     value += multDiv(lexemes);
                     break;
                 case OP_MINUS:
+//                    if (lexemes.prev().type != LexemeType.NUMBER){
+//                        value = -1 * multDiv(lexemes);
+//                    }
                     value -= multDiv(lexemes);
                     break;
                 default:

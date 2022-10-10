@@ -57,7 +57,7 @@ public class CalculatorController {
         try{
             List lexemes = Lexeme.lexAnalyze(expression);
             LexemeBuffer lexemeBuffer = new LexemeBuffer(lexemes);
-            calculator.setResult(String.valueOf(Lexeme.expr(lexemeBuffer)));
+            calculator.setResult(Lexeme.expr(lexemeBuffer));
         }catch(RuntimeException e){
             errMessage = e.getMessage();
             model.addAttribute("errorMessage", e.getMessage());
@@ -85,7 +85,7 @@ public class CalculatorController {
     public String searchByResult(@ModelAttribute("search") String search,
                                  @ModelAttribute("search-param") String searchParam,
                                  Model model) {
-        model.addAttribute("calculations", calculatorService.getByResultWithSearchParam(search, searchParam));
+        model.addAttribute("calculations", calculatorService.getByResultWithSearchParam(Double.valueOf(search), searchParam));
         model.addAttribute("backBtn", true);
         return "calculation";
     }

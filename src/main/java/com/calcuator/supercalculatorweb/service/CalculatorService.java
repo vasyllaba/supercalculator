@@ -25,7 +25,7 @@ public class CalculatorService {
     }
 
     public Calculator save(Calculator calculator) {
-        calculator.trimResult();
+//        calculator.trimResult();
         return calculatorRepository.save(calculator);
     }
 
@@ -38,7 +38,7 @@ public class CalculatorService {
         calculatorRepository.delete(calculator);
     }
 
-    public List<Calculator> getByResultWithSearchParam(String expResult, String searchParam){
+    public List<Calculator> getByResultWithSearchParam(Double expResult, String searchParam){
         if (searchParam.equals("More"))
             return calculatorRepository.findAllByExpResultGreaterThan(expResult);
         else if (searchParam.equals("Less"))

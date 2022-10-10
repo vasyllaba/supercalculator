@@ -8,9 +8,9 @@ import java.util.List;
 
 @Repository
 public interface CalculatorRepository  extends JpaRepository <Calculator, Long> {
-    List<Calculator> findAllByExpResult(String result);
+    List<Calculator> findAllByExpResult(Double result);
 
-    List<Calculator> findAllByExpResultGreaterThan(String result);
+    List<Calculator> findAllByExpResultGreaterThan(Double result);
 
-    List<Calculator> findAllByExpResultLessThan(String result);
+    List<Calculator> findAllByExpResultLessThan(Double result);
 }

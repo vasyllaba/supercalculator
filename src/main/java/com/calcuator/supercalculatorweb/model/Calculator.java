@@ -14,16 +14,16 @@ public class Calculator {
     private String expression;
 
     @Column(nullable = true)
-    private String expResult;
+    private Double expResult;
 
     public Calculator() {
     }
 
-    public String trimResult(){;
-        if (expResult.endsWith(".0"))
-            expResult = expResult.replaceAll(".0", "");
-        return expResult;
-    }
+//    public String trimResult(){;
+//        if (expResult.endsWith(".0"))
+//            expResult = expResult.replaceAll(".0", "");
+//        return expResult;
+//    }
 
     public Long getId() {
         return id;
@@ -41,11 +41,11 @@ public class Calculator {
         this.expression = expression;
     }
 
-    public String getResult() {
+    public Double getResult() {
         return expResult;
     }
 
-    public void setResult(String result) {
+    public void setResult(Double result) {
         this.expResult = result;
     }
 }

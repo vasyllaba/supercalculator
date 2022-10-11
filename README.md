@@ -66,3 +66,15 @@ entered and edited arithmetic expressions.~
 * ~Paragraphs 1-3 and 8 are mandatory. If paragraphs 4-7 are not
 are executed, then perform an additional task:~
   - ~count the number of numbers in the string entered by the user.~
+  
+  
+  
+###  Technology list 
+  * Java 17
+  * Maven 4.0.0
+  * Spring Boot 2.7.4
+  * PostgreSQL 13
+  * JUnit 4.13.2
+  * Thymeleaf
+  * Bootstrap
+  * Deploy on ___heroku___

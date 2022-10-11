@@ -19,6 +19,10 @@ public class Calculator {
     public Calculator() {
     }
 
+    public Calculator(String expression) {
+        this.expression = expression;
+    }
+
     public Long getId() {
         return id;
     }

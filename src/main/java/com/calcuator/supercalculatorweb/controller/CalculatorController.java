@@ -6,10 +6,8 @@ import com.calcuator.supercalculatorweb.model.LexemeBuffer;
 import com.calcuator.supercalculatorweb.service.CalculatorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -20,9 +18,9 @@ public class CalculatorController {
         this.calculatorService = calculatorService;
     }
 
-    @GetMapping("/aa")
-    public String index(Map<String, Object> model) {
-        List<Calculator> goals = calculatorService.getAll();
+    @GetMapping("/")
+    public String addPage(Model model) {
+        model.addAttribute("calculator", new Calculator());
         return "index";
     }
 
@@ -32,53 +30,41 @@ public class CalculatorController {
         return "calculation";
     }
 
-    @GetMapping("/")
-    public String addPage(Model model) {
-        model.addAttribute("calculator", new Calculator());
-        model.addAttribute("btnSubmit", "Calculate");
-        return "index";
-    }
-
     @PostMapping("/calculator/add")
-    public String add(@ModelAttribute("expression") String expression, BindingResult bindingResult, Model model,
-                      @RequestParam(value = "id", required = false) Long id) {
-        if (bindingResult.hasErrors()){
-            if (id==null)
-            {
-                model.addAttribute("btnSubmit", "Calculate");
-            }else {
-                model.addAttribute("btnSubmit", "Recalculate");
-            }
-            return "add";
-        }
-        Calculator calculator = new Calculator();
-        calculator.setExpression(expression);
-        String errMessage = null;
+    public String add(@ModelAttribute("expression") String expression, Model model) {
+        Calculator calculator = new Calculator(expression);
+        model.addAttribute("calculator", calculator);
         try{
-            List lexemes = Lexeme.lexAnalyze(expression);
-            LexemeBuffer lexemeBuffer = new LexemeBuffer(lexemes);
+            LexemeBuffer lexemeBuffer = new LexemeBuffer(Lexeme.lexAnalyze(expression));
             calculator.setResult(Lexeme.expr(lexemeBuffer));
         }catch(RuntimeException e){
-            errMessage = e.getMessage();
             model.addAttribute("errorMessage", e.getMessage());
+            return "index";
         }
-        model.addAttribute("calculator", calculator);
-        if (id==null)
-        {
-            model.addAttribute("btnSubmit", "Calculate");
-        }else {
-            model.addAttribute("btnSubmit", "Recalculate");
-            calculator.setId(id);
-        }
-        if (errMessage == null) calculatorService.save(calculator);
+        calculatorService.save(calculator);
         return "index";
     }
 
     @GetMapping("/calculation/edit")
     public String edit(@RequestParam(name="id")Long id, Model model) {
         model.addAttribute("calculator", calculatorService.getById(id));
-        model.addAttribute("btnSubmit", "Recalculate");
-        return "index";
+        return "edit";
+    }
+
+    @PostMapping("/calculation/edit")
+    public String update(@RequestParam(name="id")Long id,
+                         @ModelAttribute("calculation") Calculator calculation, Model model) {
+        try{
+            LexemeBuffer lexemeBuffer = new LexemeBuffer(Lexeme.lexAnalyze(calculation.getExpression()));
+            calculation.setResult(Lexeme.expr(lexemeBuffer));
+        }catch(RuntimeException e){
+            model.addAttribute("id", calculation.getId());
+            model.addAttribute("errorMessage", e.getMessage());
+            return "edit";
+        }
+        calculatorService.update(calculation, id);
+        model.addAttribute("calculations", calculatorService.getAll());
+        return "calculation";
     }
 
     @PostMapping("/calculation/search")
